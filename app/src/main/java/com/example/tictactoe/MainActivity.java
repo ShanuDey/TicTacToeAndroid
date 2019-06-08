@@ -1,5 +1,7 @@
 package com.example.tictactoe;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +16,15 @@ public class MainActivity extends AppCompatActivity{
 
     private int board[][] = new int[3][3];
 
+    private AlertDialog.Builder alertBuilder;
 
 
     private Boolean playerXturn = true;
     private int round = 0;
     private String PLAYER_X = "Player X : ";
-    private String PLAYER_Y = "Player Y : ";
+    private String PLAYER_O = "Player O : ";
+    private int SCORE_PLAYER_X = 0;
+    private int SCORE_PLAYER_O = 0;
 
     int[][] btn_id = new int[3][3];
     Button[][] btn_board = new Button[3][3];
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 restart();
+                SCORE_PLAYER_X = 0;
+                SCORE_PLAYER_O = 0;
             }
         });
 
@@ -65,7 +72,24 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
+        alertBuilder = new AlertDialog.Builder(this);
+        tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
+        tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
+    }
+
+    private void alert(String title,String msg){
+        alertBuilder.setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        restart();
+                    }
+                })
+                .setCancelable(false)
+                .create()
+                .show();
     }
 
     public void buttonClicked(View v){
@@ -143,12 +167,17 @@ public class MainActivity extends AppCompatActivity{
 
     public void playerXwin(){
         Log.v("shanu","player x won");
+        alert("Winner","Player X won");
+        SCORE_PLAYER_X++;
     }
     public void playerOwin(){
         Log.v("shanu","player O won");
+        alert("Winner","Player O won");
+        SCORE_PLAYER_O++;
     }
     public void draw(){
         Log.v("shanu","draw");
+        alert("Winner","Draw");
     }
 
     private void restart(){
@@ -160,5 +189,9 @@ public class MainActivity extends AppCompatActivity{
                 board[i][j]=0;
             }
         }
+        round=0;
+        tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
+        tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
+
     }
 }
