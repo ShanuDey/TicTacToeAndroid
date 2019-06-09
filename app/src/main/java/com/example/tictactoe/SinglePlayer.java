@@ -1,19 +1,19 @@
 package com.example.tictactoe;
 
-import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-
-public class MainActivity extends AppCompatActivity{
+public class SinglePlayer extends AppCompatActivity {
 
     private TextView tv_player_x,tv_player_o,tv_reset,tv_play_again;
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_single_player);
 
 
         tv_play_again = (TextView) findViewById(R.id.btn_play_again);

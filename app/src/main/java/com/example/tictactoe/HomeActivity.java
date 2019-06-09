@@ -20,6 +20,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onClickSP(View v){
         Log.v("shanu","Single Player Clicked");
+        Intent intent = new Intent(this,SinglePlayer.class);
+        startActivity(intent);
     }
     public void onClickTP(View v){
         Log.v("shanu","Two Player Clicked");
