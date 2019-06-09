@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +17,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SinglePlayer extends AppCompatActivity {
 
-//    Note:   for player X -> 1
-//            for player O -> 2 (bot_AI)
+//    Note:   for player X -> 1          -> score -10
+//            for player O -> 2 (bot_AI) -> score +10
 //            for blank    -> 0
 
 
@@ -88,45 +89,36 @@ public class SinglePlayer extends AppCompatActivity {
     }
 
     private void alert(String title,String msg){
-        AlertDialog dialog = alertBuilder.setTitle(title)
-                .setMessage(msg)
-                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        restart();
-                    }
-                })
-                .setCancelable(false)
-                .create();
-        dialog.show();
-        Button posBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        posBtn.setBackgroundColor(getResources().getColor(R.color.gray500));
+//        AlertDialog dialog = alertBuilder.setTitle(title)
+//                .setMessage(msg)
+//                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        restart();
+//                    }
+//                })
+//                .setCancelable(false)
+//                .create();
+//        dialog.show();
+//        Button posBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        posBtn.setBackgroundColor(getResources().getColor(R.color.gray500));
+
+
+        /////Toast
+        Toast.makeText(this, title+" : "+msg, Toast.LENGTH_LONG).show();
 
     }
 
-    public void buttonClicked(View v){
-        round++;
+    public void displayLog(){
         for(int i=0;i<3;i++){
+            String s ="board : ";
             for(int j=0;j<3;j++){
-                if(v.getId()==btn_id[i][j]){
-                    Log.v("shanu","clicked "+i+" "+j);
-                    if(playerXturn){
-                        board[i][j] = 1;
-                        ((Button)v).setText("X");
-                        playerXturn = false;
-                    }
-                    else{
-                        board[i][j]=2;
-                        ((Button)v).setText("O");
-                        playerXturn = true;
-                    }
-                    ((Button)v).setEnabled(false);
-                    break;
-                }
+                s+=board[i][j]+" ";
             }
+            Log.v("shanu",s);
         }
-        gameController();
     }
+
 
     public void playerXwin(){
         Log.v("shanu","player x won");
@@ -158,29 +150,70 @@ public class SinglePlayer extends AppCompatActivity {
 
     }
 
+    public void buttonClicked(View v){
+        round++;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(v.getId()==btn_id[i][j]){
+                    Log.v("shanu","clicked "+i+" "+j);
+                    if(playerXturn){
+                        board[i][j] = 1;
+                        ((Button)v).setText("X");
+                        playerXturn = false;
+                    }
+                    else{
+                        board[i][j]=2;
+                        ((Button)v).setText("O");
+                        playerXturn = true;
+                    }
+                    ((Button)v).setEnabled(false);
+                    break;
+                }
+            }
+        }
+        gameController();
+    }
+
 
     //////////////////////////
     //// Game Controller /////
     //////////////////////////
 
     private void gameController(){
+        displayLog();
+
         int score = evaluate(board);
-        if(score == 10){
-            if(playerXturn){
-                playerXwin();
-            }
-            else{
-                playerOwin();
-            }
+        if(score==-10) { //-10 means player X won
+            playerXwin();
             return;
         }
+        else if (score==10) { //+10means player  won
+            playerOwin();
+            return;
+        }
+
+
+
+
+//        if(score == 10){
+//            if(playerXturn){
+//                playerXwin();
+//            }
+//            else{
+//                playerOwin();
+//            }
+//            return;
+//        }
+
+
+
         if(isMoveLeft(board)==false){
             draw();
             return;
         }
         if(playerXturn==false && score!=10){
             Position bestPos = findBestMove(board);
-            board[bestPos.i][bestPos.j] = 1;
+            //board[bestPos.i][bestPos.j] = 1;
             buttonClicked(btn_board[bestPos.i][bestPos.j]);
             return;
         }
@@ -324,7 +357,7 @@ public class SinglePlayer extends AppCompatActivity {
                     board[i][j] = 2;
 
                     //calculate move value
-                    int moveValue = minimax(board,0,false);
+                    int moveValue = minimax(board,0,true);
 
 
                     //revert move
