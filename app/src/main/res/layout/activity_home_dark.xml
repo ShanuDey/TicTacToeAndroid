@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:theme="@style/Theme.MaterialComponents"
     android:background="@color/gray900"
-    tools:context=".HomeActivity">
+    tools:context=".HomeActivityDark">
 
     <ImageView
         android:layout_width="347dp"
@@ -22,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10sp"
         android:onClick="onClickSP"
+        android:background="@color/gray700"
         android:text="Single Player"
         android:textColor="#000" />
 
@@ -44,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dark Theme    "
+            android:textColor="@color/gray200"
             android:textSize="20sp"
             />
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/id_switch"
             android:checked="true"
+            android:onClick="onClickTheme"
             />
 
     </LinearLayout>
@@ -60,6 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2sp"
+        android:textColor="@color/gray200"
         android:text="Developed by Shanu Dey"
         android:textSize="18sp" />
 

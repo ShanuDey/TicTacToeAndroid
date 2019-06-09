@@ -1,7 +1,7 @@
 package com.example.tictactoe;
 
-
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,21 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivityDark extends AppCompatActivity {
     private SwitchMaterial s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_dark);
 
         s = findViewById(R.id.id_switch);
 
-    }
 
+
+    }
     public void onClickTheme(View v){
-        Intent intent = new Intent(this,HomeActivityDark.class);
+        Intent intent = new Intent(this,HomeActivity.class);
         startActivity(intent);
     }
 
