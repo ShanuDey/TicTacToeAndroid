@@ -9,7 +9,15 @@
     <color name="gray300">#e0e0e0</color>
     <color name="gray200">#eeeeee</color>
 
+    <color name="gray600">#757575</color>616161
+    <color name="gray700">#616161</color>
+    <color name="gray800">#424242</color>
+    <color name="gray900">#212121</color>
+
+
     <color name="green">#43a047</color>
+
+
 
 
 </resources>

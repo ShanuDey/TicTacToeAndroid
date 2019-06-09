@@ -3,6 +3,8 @@ package com.example.tictactoe;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.w3c.dom.Text;
 
 public class SinglePlayer extends AppCompatActivity {
 
@@ -43,12 +47,25 @@ public class SinglePlayer extends AppCompatActivity {
     int[][] btn_id = new int[3][3];
     Button[][] btn_board = new Button[3][3];
 
+    private boolean darkTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player);
+        //setContentView(R.layout.activity_single_player_dark);
+
+        //set theme
+        darkTheme = getIntent().getBooleanExtra("darkTheme",false);
+
+        if(darkTheme){
+            setContentView(R.layout.activity_single_player_dark);
+        }
+        else{
+            setContentView(R.layout.activity_single_player);
+        }
 
 
+        //casting
         tv_play_again = (TextView) findViewById(R.id.btn_play_again);
         tv_player_o = (TextView) findViewById(R.id.tv_player_o);
         tv_player_x = (TextView) findViewById(R.id.tv_player_x);
@@ -122,8 +139,20 @@ public class SinglePlayer extends AppCompatActivity {
                    }
                });
 
-        snackbar.setActionTextColor(getResources().getColor(R.color.green));
+        View snackView = snackbar.getView();
+        Resources resources = getResources();
+
+        if(darkTheme){
+            snackView.setBackgroundColor(resources.getColor(R.color.gray500));
+
+        }
+        else{
+            snackView.setBackgroundColor(resources.getColor(R.color.gray800));
+        }
+
+        snackbar.setActionTextColor(resources.getColor(R.color.green));
         snackbar.show();
+
 
         //// disable all button click
         for(int i=0;i<3;i++){

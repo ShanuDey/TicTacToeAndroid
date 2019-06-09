@@ -10,4 +10,8 @@
        <!-- <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog</item>-->
     </style>
 
+    <style name="darkTheme" parent="Theme.MaterialComponents">
+
+    </style>
+
 </resources>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,12 +37,23 @@ public class MainActivity extends AppCompatActivity{
     int[][] btn_id = new int[3][3];
     Button[][] btn_board = new Button[3][3];
 
+    private boolean darkTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
+        //set theme
+        darkTheme = getIntent().getBooleanExtra("darkTheme",false);
+        if(darkTheme){
+            setContentView(R.layout.activity_main_dark);
+        }
+        else{
+            setContentView(R.layout.activity_main);
+        }
 
+        //casting
         tv_play_again = (TextView) findViewById(R.id.btn_play_again);
         tv_player_o = (TextView) findViewById(R.id.tv_player_o);
         tv_player_x = (TextView) findViewById(R.id.tv_player_x);
@@ -114,7 +126,19 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
 
-        snackbar.setActionTextColor(getResources().getColor(R.color.green));
+        View snackView = snackbar.getView();
+        Resources resources = getResources();
+
+        if(darkTheme){
+            snackView.setBackgroundColor(resources.getColor(R.color.gray500));
+
+        }
+        else{
+            snackView.setBackgroundColor(resources.getColor(R.color.gray800));
+        }
+
+        snackbar.setActionTextColor(resources.getColor(R.color.green));
+        snackbar.show();
         snackbar.show();
 
         //// disable all button click
