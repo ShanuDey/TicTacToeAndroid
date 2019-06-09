@@ -1,13 +1,20 @@
 package com.example.tictactoe;
 
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AlertDialog;
+//import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -16,7 +23,7 @@ public class MainActivity extends AppCompatActivity{
 
     private int board[][] = new int[3][3];
 
-    private AlertDialog.Builder alertBuilder;
+    private MaterialAlertDialogBuilder alertBuilder;
 
 
     private Boolean playerXturn = true;
@@ -72,14 +79,14 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
-        alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder = new MaterialAlertDialogBuilder(this);//,R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered);
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
     }
 
     private void alert(String title,String msg){
-        alertBuilder.setTitle(title)
+        AlertDialog dialog = alertBuilder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
                     @Override
@@ -88,8 +95,11 @@ public class MainActivity extends AppCompatActivity{
                     }
                 })
                 .setCancelable(false)
-                .create()
-                .show();
+                .create();
+        dialog.show();
+        Button posBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        posBtn.setBackgroundColor(getResources().getColor(R.color.gray500));
+
     }
 
     public void buttonClicked(View v){

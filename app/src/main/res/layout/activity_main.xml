@@ -83,28 +83,33 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/gray300"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_00"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
+            android:layout_marginLeft="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
 
             android:id="@+id/button_01"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
 
             android:id="@+id/button_02"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
     </LinearLayout>
@@ -113,29 +118,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/gray300"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
 
             android:id="@+id/button_10"
             android:layout_width="0dp"
+            android:layout_marginLeft="10sp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
 
             android:id="@+id/button_11"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
 
             android:id="@+id/button_12"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
     </LinearLayout>
@@ -144,26 +154,31 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/gray300"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_20"
+            android:layout_marginLeft="10sp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_21"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_22"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10sp"
             android:layout_weight="1"
             android:textSize="60sp" />
     </LinearLayout>
