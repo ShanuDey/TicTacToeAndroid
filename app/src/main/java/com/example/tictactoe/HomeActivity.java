@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onClickTheme(View v){
         Intent intent = new Intent(this,HomeActivityDark.class);
         startActivity(intent);
+        finish();
     }
 
     public void onClickSP(View v){
