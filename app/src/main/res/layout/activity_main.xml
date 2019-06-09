@@ -183,5 +183,12 @@
             android:textSize="60sp" />
     </LinearLayout>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/id_CoordinateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

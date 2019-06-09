@@ -3,6 +3,7 @@ package com.example.tictactoe;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,11 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class MainActivity extends AppCompatActivity{
 
     private TextView tv_player_x,tv_player_o,tv_reset,tv_play_again;
+    private CoordinatorLayout coordinatorLayout;
+    private Snackbar snackbar;
 
     private int board[][] = new int[3][3];
 
@@ -79,22 +83,48 @@ public class MainActivity extends AppCompatActivity{
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
+        coordinatorLayout = findViewById(R.id.id_CoordinateLayout);
+
     }
 
     private void alert(String title,String msg){
-        AlertDialog dialog = alertBuilder.setTitle(title)
-                .setMessage(msg)
-                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+//        AlertDialog dialog = alertBuilder.setTitle(title)
+//                .setMessage(msg)
+//                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        restart();
+//                    }
+//                })
+//                .setCancelable(false)
+//                .create();
+//        dialog.show();
+//        Button posBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        posBtn.setBackgroundColor(getResources().getColor(R.color.gray500));
+
+        /////Toast
+        //Toast.makeText(this, title+" : "+msg, Toast.LENGTH_LONG).show();
+
+        ////// Snakbar -> Material Design :)
+        snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Play Again", new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         restart();
                     }
-                })
-                .setCancelable(false)
-                .create();
-        dialog.show();
-        Button posBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        posBtn.setBackgroundColor(getResources().getColor(R.color.gray500));
+                });
+
+        snackbar.setActionTextColor(getResources().getColor(R.color.green));
+        snackbar.show();
+
+        //// disable all button click
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(board[i][j]==0){
+                    btn_board[i][j].setEnabled(false);
+                }
+            }
+        }
 
     }
 
@@ -199,5 +229,6 @@ public class MainActivity extends AppCompatActivity{
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
+        snackbar.dismiss();
     }
 }
