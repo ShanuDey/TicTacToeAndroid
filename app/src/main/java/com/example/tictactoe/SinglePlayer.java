@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class SinglePlayer extends AppCompatActivity {
+
+//    Note:   for player X -> 1
+//            for player O -> 2 (bot_AI)
+//            for blank    -> 0
+
 
     private TextView tv_player_x,tv_player_o,tv_reset,tv_play_again;
 
@@ -119,56 +125,7 @@ public class SinglePlayer extends AppCompatActivity {
                 }
             }
         }
-        check();
-    }
-
-
-    public void check(){
-        int diagonal_x_count = 0;
-        int diagonal_y_count = 0;
-        for(int i=0;i<3;i++){
-            //horinzontal
-            if(board[i][0]==1 && board[i][1]==1 && board[i][2]==1){
-                playerXwin();
-                return;
-            }
-            if(board[i][0]==2 && board[i][1]==2 && board[i][2]==2){
-                playerOwin();
-                return;
-            }
-            //vertical
-            if(board[0][i]==1 && board[1][i]==1 && board[2][i]==1){
-                playerXwin();
-                return;
-            }
-            if(board[0][i]==2 && board[1][i]==2 && board[2][i]==2){
-                playerOwin();
-                return;
-            }
-            if(board[i][i]==1)
-                diagonal_x_count++;
-            else if(board[i][i]==2)
-                diagonal_y_count++;
-        }
-        if(diagonal_x_count==3) {
-            playerXwin();
-            return;
-        }
-        else if(diagonal_y_count==3) {
-            playerOwin();
-            return;
-        }
-        if(board[0][2]==1 && board[1][1]==1 && board[2][0]==1){
-            playerXwin();
-            return;
-        }
-        if(board[0][2]==2 && board[1][1]==2 && board[2][0]==2){
-            playerOwin();
-            return;
-        }
-
-        if(round==9)
-            draw();
+        gameController();
     }
 
     public void playerXwin(){
@@ -200,4 +157,191 @@ public class SinglePlayer extends AppCompatActivity {
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
     }
+
+
+    //////////////////////////
+    //// Game Controller /////
+    //////////////////////////
+
+    private void gameController(){
+        int score = evaluate(board);
+        if(score == 10){
+            if(playerXturn){
+                playerXwin();
+            }
+            else{
+                playerOwin();
+            }
+            return;
+        }
+        if(isMoveLeft(board)==false){
+            draw();
+            return;
+        }
+        if(playerXturn==false && score!=10){
+            Position bestPos = findBestMove(board);
+            board[bestPos.i][bestPos.j] = 1;
+            buttonClicked(btn_board[bestPos.i][bestPos.j]);
+            return;
+        }
+    }
+
+
+    ///////////////////////////
+    /////// game logic ////////
+    ///////////////////////////
+
+    public  int evaluate(int[][] board){
+        //for win +10
+        //for loss -10
+        //for draw 0
+        for(int i=0;i<3;i++){
+            //row wise matching
+            if(board[i][0]==board[i][1] && board[i][1]==board[i][2]){
+                if(board[i][0]==2){
+                    return 10;
+                }
+                if(board[i][0]==1){
+                    return -10;
+                }
+            }
+
+            //column wise matching
+            if(board[0][i]==board[1][i] && board[1][i]==board[2][i]){
+                if(board[0][i]==2){
+                    return 10;
+                }
+                if(board[0][i]==1){
+                    return -10;
+                }
+            }
+        }
+
+        //primary diagonal matching
+        if(board[0][0]==board[1][1] && board[1][1]==board[2][2]){
+            if(board[0][0]==2){
+                return 10;
+            }
+            if(board[0][0]==1){
+                return -10;
+            }
+        }
+
+        //secondary diagonal matching
+        if(board[0][2]==board[1][1] && board[1][1]==board[2][0]) {
+            if (board[0][2] == 2) {
+                return 10;
+            }
+            if (board[0][2] == 1) {
+                return -10;
+            }
+        }
+        return 0;
+    }
+
+    private class Position{
+        int i,j;
+        Position(int i,int j){
+            this.i = i;
+            this.j = j;
+        }
+
+        public void changeValue(int x,int y){
+            i=x;
+            j=y;
+        }
+    }
+
+    private boolean isMoveLeft(int[][] board){
+        for(int i=0;i<3;i++){
+            for (int j=0;j<3;j++){
+                if(board[i][j]==0)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private int minimax(int[][] board, int depth,boolean isMax){
+        int score = evaluate(board);
+
+        //if anyone wins i.e, game over
+        if(score==10 || score==-10){
+            return score;
+        }
+
+        if(isMoveLeft(board) == false){
+            return 0;
+        }
+
+        if(isMax){
+            int bestValue = Integer.MIN_VALUE;
+            for(int i=0;i<3;i++){
+                for(int j=0;j<3;j++){
+                    if(board[i][j]==0){
+                        //place a move
+                        board[i][j] = 1;
+
+                        //go further
+                        bestValue = Math.max(bestValue,minimax(board,depth+1,false));
+
+                        //revert the move
+                        board[i][j] = 0;
+                    }
+                }
+            }
+            return bestValue;
+        }
+        else{
+            int worstValue = Integer.MAX_VALUE;
+            for(int i=0;i<3;i++){
+                for(int j=0;j<3;j++){
+
+                    if(board[i][j]==0){
+                        //place a move
+                        board[i][j] = 2;
+
+                        //go further
+                        worstValue = Math.min(worstValue,minimax(board,depth+1,true));
+
+                        //revert the move
+                        board[i][j] = 0;
+                    }
+                }
+            }
+            return worstValue;
+        }
+    }
+
+    private Position findBestMove(int[][] board){
+        int bestValue = Integer.MIN_VALUE;
+        Position bestPos =new Position(-1,-1);
+
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(board[i][j]==0){
+                    //place a move
+                    board[i][j] = 2;
+
+                    //calculate move value
+                    int moveValue = minimax(board,0,false);
+
+
+                    //revert move
+                    board[i][j] = 0;
+
+                    if(moveValue>bestValue){
+                        bestValue = moveValue;
+                        bestPos.changeValue(i,j);
+                        Log.v("shanu","moveValue = "+moveValue+" position = "+i+" "+j);
+                    }
+                }
+            }
+        }
+        return bestPos;
+    }
+
+
 }
+
+
