@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 public class SinglePlayer extends AppCompatActivity {
 
@@ -23,6 +25,8 @@ public class SinglePlayer extends AppCompatActivity {
 
 
     private TextView tv_player_x,tv_player_o,tv_reset,tv_play_again;
+    private CoordinatorLayout coordinatorLayout;
+    private Snackbar snackbar;
 
     private int board[][] = new int[3][3];
 
@@ -86,6 +90,8 @@ public class SinglePlayer extends AppCompatActivity {
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
+        coordinatorLayout = findViewById(R.id.id_CoordinateLayout);
+
     }
 
     private void alert(String title,String msg){
@@ -105,7 +111,29 @@ public class SinglePlayer extends AppCompatActivity {
 
 
         /////Toast
-        Toast.makeText(this, title+" : "+msg, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, title+" : "+msg, Toast.LENGTH_LONG).show();
+
+        ////// Snakbar -> Material Design :)
+        snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_INDEFINITE)
+               .setAction("Play Again", new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                      restart();
+                   }
+               });
+
+        snackbar.setActionTextColor(getResources().getColor(R.color.green));
+        snackbar.show();
+
+        //// disable all button click
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(board[i][j]==0){
+                    btn_board[i][j].setEnabled(false);
+                }
+            }
+        }
+
 
     }
 
@@ -147,6 +175,7 @@ public class SinglePlayer extends AppCompatActivity {
         round=0;
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
+        snackbar.dismiss();
 
     }
 
