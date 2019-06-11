@@ -12,5 +12,4 @@
 /captures
 .externalNativeBuild
 app/release/
-*.zip
-google-services.json
+*.json
