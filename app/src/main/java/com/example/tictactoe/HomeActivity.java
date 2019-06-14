@@ -50,6 +50,13 @@ public class HomeActivity extends AppCompatActivity implements UpdateHelper.OnUp
         startActivity(intent);
     }
 
+    public void onClickOM(View v){
+        Log.v("shanu","Online Multiplayer Clicked");
+        Intent intent = new Intent(this,LoginActivity.class);
+        intent.putExtra("darkTheme",s.isChecked());
+        startActivity(intent);
+    }
+
     @Override
     public void onUpdateNeeded(final String updateUrl) {
         Log.v("shanu","alert dialog");
