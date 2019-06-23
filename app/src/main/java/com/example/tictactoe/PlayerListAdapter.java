@@ -1,5 +1,7 @@
 package com.example.tictactoe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolder> {
     List<Player> playerList;
+    Context context;
 
     public PlayerListAdapter() {
         //default constructor
@@ -21,11 +24,13 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
 
     public PlayerListAdapter(List<Player> playerList) {
         this.playerList = playerList;
+
     }
 
     @NonNull
     @Override
     public PlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.player_card,parent,false);
         PlayerViewHolder playerViewHolder = new PlayerViewHolder(view);
@@ -47,13 +52,25 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
     public class PlayerViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_playerName;
         private Button btn_invite;
+        Player player;
         public PlayerViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_playerName = itemView.findViewById(R.id.tv_playerName);
             btn_invite = itemView.findViewById(R.id.btn_invite);
+
+            btn_invite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,Matching.class);
+                    intent.putExtra("opponentId",player.getUserId());
+                    context.startActivity(intent);
+                }
+            });
         }
         public void setData(Player player){
+            this.player = player;
             tv_playerName.setText(player.name);
         }
+
     }
 }

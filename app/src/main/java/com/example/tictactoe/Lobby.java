@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -26,6 +27,7 @@ public class Lobby extends AppCompatActivity {
     private List<Player> playerList =new ArrayList<>();
     private PlayerListAdapter playerListAdapter;
     //private TextView tv_online;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,13 @@ public class Lobby extends AppCompatActivity {
         setContentView(R.layout.activity_lobby);
 
         UID = getIntent().getStringExtra("UID");
+        Log.v("shanu","lobby userid "+UID);
+        UserData.UID = UID;
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        createPlayer();
+
 
         //tv_online = (TextView) findViewById(R.id.tv_online);
 
@@ -50,11 +59,31 @@ public class Lobby extends AppCompatActivity {
 
 
 
+
+    }
+
+    public void createPlayer(){
+        databaseReference.child("user").child(UID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               User user = dataSnapshot.getValue(User.class);
+               if(user!=null){
+                   Player player = new Player(user.getEmail(),user.getName(),UID,"idle","none");
+                   UserData.CURRENT_PLAYER = player;
+                   databaseReference.child("online").child(UID).setValue(player);
+               }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.v("shanu","getplaer"+databaseError.getDetails());
+            }
+        });
     }
 
 
     private void loadData(){
-        FirebaseDatabase.getInstance().getReference().child("online")
+        databaseReference.child("online")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
