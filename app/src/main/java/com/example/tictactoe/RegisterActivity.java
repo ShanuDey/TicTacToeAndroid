@@ -78,8 +78,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             String uid = currentUser.getUid();
 
-            mDatabase.child(uid).child("username").setValue(username);
-            mDatabase.child(uid).child("email").setValue(email);
+            User user = new User(username,email,uid);
+
+            String pushKey = mDatabase.push().getKey();
+            mDatabase.child(pushKey).setValue(user);
 
             Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,Lobby.class);
