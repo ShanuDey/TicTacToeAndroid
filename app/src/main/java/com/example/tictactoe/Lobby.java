@@ -49,6 +49,11 @@ public class Lobby extends AppCompatActivity {
         recyclerView.setAdapter(playerListAdapter);
 
 
+
+    }
+
+
+    private void loadData(){
         FirebaseDatabase.getInstance().getReference().child("online")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -56,6 +61,10 @@ public class Lobby extends AppCompatActivity {
                         List<Player> temp = new ArrayList<>();
                         for(DataSnapshot ds:dataSnapshot.getChildren()){
                             Player player = ds.getValue(Player.class);
+//
+//                            //Condition checking or such kind of extra code looses the reference to the object
+//                            //thats why it is not showing data
+//
 //                            Log.v("shanu","players list player-> "+player.getEmail() + "name->"+player.getName());
 //                            if(!UID.equals(player.userId)){
 //                                playerList.add(player);
@@ -77,11 +86,6 @@ public class Lobby extends AppCompatActivity {
     }
 
 
-    private void loadData(){
-
-    }
-
-
     public void onClickLogout(View v){
         Log.v("shanu","Logout");
         FirebaseAuth.getInstance().signOut();
@@ -100,6 +104,6 @@ public class Lobby extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //loadData();
+        loadData();
     }
 }
