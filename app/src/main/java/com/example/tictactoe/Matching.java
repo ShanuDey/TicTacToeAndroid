@@ -26,6 +26,7 @@ public class Matching extends AppCompatActivity {
     private String OPPONENT_ID;
     private String onlineToken;
     private User myUser;
+    private String gameId;
 
     private DatabaseReference databaseReference;
 
@@ -43,27 +44,60 @@ public class Matching extends AppCompatActivity {
 
         OPPONENT_ID = getIntent().getStringExtra("opponentId");
 
-        Log.v("shanu","opponetId"+OPPONENT_ID);
+        Log.v("shanu","opponetId ->"+OPPONENT_ID);
 
+        gameId = UserData.UID+"~"+OPPONENT_ID;
+
+        databaseReference.child("online").child(OPPONENT_ID).child("status").setValue("requested");
+        databaseReference.child("online").child(OPPONENT_ID).child("opponentId").setValue(UserData.UID);
+        databaseReference.child("game").child(gameId).child("board_status").setValue("requested");
 
     }
     public void matching(){
         //UserData.CURRENT_PLAYER
+        databaseReference.child("game").child(gameId).child("board_status")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String status = dataSnapshot.getValue(String.class);
+                        if(status!=null) {
+                           if (status.equals("accepted")) {
+                                Log.v("shanu", "accepted");
+                                gameLoading();
+                           }
+                           else if(status.equals("rejected")){
+                                rejected();
+                           }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
     }
 
-    private void gameLoading(String opponetId){
-//        String gameId = UID+"~"+opponetId;
-//        databaseReference.child("game").child(gameId).child("board").setValue(-1);
-//        Intent intent = new Intent(this,Multiplayer.class);
-//        intent.putExtra("gameId",gameId);
-//        startActivity(intent);
-//        finish();
+    private void gameLoading(){
+        //databaseReference.child("game").child(gameId).child("board").setValue(-1);
+        Intent intent = new Intent(this,Multiplayer.class);
+        //intent.putExtra("gameId",gameId);
+        startActivity(intent);
+        finish();
     }
 
+    public void rejected(){
+        Intent intent = new Intent(this,Lobby.class);
+        intent.putExtra("UID",UserData.UID);
+        startActivity(intent);
+        finish();
+    }
 
     public void cancel(){
         //databaseReference.child("game").child(onlineToken).removeValue();
+        databaseReference.child("online").child(OPPONENT_ID).child("status").setValue("idle");
+        rejected();
     }
 
     @Override
