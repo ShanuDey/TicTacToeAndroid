@@ -46,29 +46,21 @@
 
 
 
-    <!--LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20sp"
+        android:layout_margin="10sp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Online : "
+            android:text="Online Player List"
             android:textColor="#000"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_online"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textColor="#000"
-            android:textSize="20sp" />
-
-    </LinearLayout-->
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:autofillHints="Loading"
         android:id="@+id/recycler_view"

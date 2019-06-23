@@ -53,6 +53,7 @@ public class Multiplayer extends AppCompatActivity {
     private int currentPlayer;
     private int opponentPlayer;
     private String status;
+    private TextView tv_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,7 @@ public class Multiplayer extends AppCompatActivity {
 //        tv_player_o.setText(PLAYER_O + SCORE_PLAYER_O);
 
         coordinatorLayout = findViewById(R.id.id_CoordinateLayout);
+        tv_status = findViewById(R.id.tv_status);
 
         checkStatus();
         loadGameBoard();
@@ -329,8 +331,10 @@ public class Multiplayer extends AppCompatActivity {
                      Log.v("shanu","status --> "+status);
                      if(status.equals("turn"+currentPlayer)){
                          currentPlayerTurn =true;
+                         tv_status.setText("Your's\nTurn");
                      }else if(status.equals("turn"+opponentPlayer)){
                          currentPlayerTurn = false;
+                         tv_status.setText("Oppnent's\nTurn");
                      }else if (status.equals("draw")) {
                          draw();
                      } else if (status.equals("win"+currentPlayer)) {
@@ -338,6 +342,8 @@ public class Multiplayer extends AppCompatActivity {
                      } else if (status.equals("win"+opponentPlayer)) {
                          gameOver();
                      }
+
+
                  }
             }
             @Override
