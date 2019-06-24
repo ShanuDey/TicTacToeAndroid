@@ -45,6 +45,16 @@ public class LoginActivity extends AppCompatActivity {
         String email = et_email.getText().toString();
         String password = et_pass.getText().toString();
         Log.v("shanu","Email ="+email);
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if(!email.matches(emailPattern)){
+            et_email.setError("Inalid Email");
+            //Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(password.length()<6){
+            et_pass.setError("Length must be greater than 6 letter");
+            return;
+        }
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
