@@ -4,4 +4,6 @@
     <string name="create_a_new_account">create a new account</string>
     <string name="cancel">Cancel</string>
     <string name="matching">Matching</string>
+    <string name="reset_score">Reset Score</string>
+    <string name="play_again">Play Again</string>
 </resources>

@@ -23,6 +23,12 @@ import org.w3c.dom.Text;
 
 public class SinglePlayer extends AppCompatActivity {
 
+//********************************
+//    Author : Shanu Dey
+//********************************
+
+
+
 //    Note:   for player X -> 1          -> score -10
 //            for player O -> 2 (bot_AI) -> score +10
 //            for blank    -> 0
@@ -371,7 +377,7 @@ public class SinglePlayer extends AppCompatActivity {
                 for(int j=0;j<3;j++){
                     if(board[i][j]==0){
                         //place a move
-                        board[i][j] = 1;
+                        board[i][j] = 1; //changed
 
                         //go further
                         bestValue = Math.max(bestValue,minimax(board,depth+1,false));
@@ -390,7 +396,7 @@ public class SinglePlayer extends AppCompatActivity {
 
                     if(board[i][j]==0){
                         //place a move
-                        board[i][j] = 2;
+                        board[i][j] = 2;//changed
 
                         //go further
                         worstValue = Math.min(worstValue,minimax(board,depth+1,true));

@@ -18,7 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity{
 
-    private TextView tv_player_x,tv_player_o,tv_reset,tv_play_again;
+    private TextView tv_player_x,tv_player_o;
+    private Button btn_reset,btn_play_again;
     private CoordinatorLayout coordinatorLayout;
     private Snackbar snackbar;
 
@@ -54,12 +55,12 @@ public class MainActivity extends AppCompatActivity{
         }
 
         //casting
-        tv_play_again = (TextView) findViewById(R.id.btn_play_again);
+        btn_play_again = (Button) findViewById(R.id.btn_play_again);
         tv_player_o = (TextView) findViewById(R.id.tv_player_o);
         tv_player_x = (TextView) findViewById(R.id.tv_player_x);
-        tv_reset = (TextView) findViewById(R.id.btn_reset);
+        btn_reset = (Button) findViewById(R.id.btn_reset);
 
-        tv_reset.setOnClickListener(new View.OnClickListener() {
+        btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 restart();
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        tv_play_again.setOnClickListener(new View.OnClickListener() {
+        btn_play_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 restart();
@@ -253,6 +254,10 @@ public class MainActivity extends AppCompatActivity{
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
-        snackbar.dismiss();
+        try {
+            snackbar.dismiss();
+        }catch (Exception e){
+            Log.v("shanu",e.getMessage());
+        }
     }
 }
