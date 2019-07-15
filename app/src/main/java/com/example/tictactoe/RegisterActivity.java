@@ -3,6 +3,7 @@ package com.example.tictactoe;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +16,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText et_username,et_email,et_password,et_confirmPass;
     private FirebaseAuth mAuth;
     private String username,email,password,confirmPass;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         et_confirmPass =findViewById(R.id.et_confirmPass);
 
         mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("user");
     }
     public void onClickRegister(View v){
         username = et_username.getText().toString().trim();
@@ -92,17 +98,36 @@ public class RegisterActivity extends AppCompatActivity {
 
             mDatabase = FirebaseDatabase.getInstance().getReference("/user");
 
-            String uid = currentUser.getUid();
+            final String uid = currentUser.getUid();
 
             User user = new User(username,email,uid);
 
             //String pushKey = mDatabase.push().getKey();
             mDatabase.child(uid).setValue(user);
 
-            Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this,Lobby.class);
-            startActivity(intent);
-            finish();
+            final ProgressDialog dialog = ProgressDialog.show(this, "",
+                    "Loading. Please wait...", true);
+
+            databaseReference.child(uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists() && dataSnapshot!=null) {
+                        dialog.cancel();
+                        Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this,Lobby.class);
+                        intent.putExtra("UID",uid);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.v("shanu",databaseError.getMessage());
+                }
+            });
+
+
         }
     }
 }
