@@ -253,6 +253,10 @@ public class MainActivity extends AppCompatActivity{
         tv_player_x.setText(PLAYER_X+SCORE_PLAYER_X);
         tv_player_o.setText(PLAYER_O+SCORE_PLAYER_O);
 
-        snackbar.dismiss();
+        try {
+            snackbar.dismiss();
+        }catch (Exception e){
+            Log.v("shanu",e.getMessage());
+        }
     }
 }
