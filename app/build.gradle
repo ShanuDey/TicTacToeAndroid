@@ -42,4 +42,5 @@ dependencies {
 
     //my added dependencies
     implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation "com.android.support:support-compat:28.0.0"
 }
