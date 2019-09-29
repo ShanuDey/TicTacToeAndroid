@@ -28,44 +28,46 @@ public class HomeActivityDark extends AppCompatActivity implements UpdateHelper.
         UpdateHelper.with(this).onUpdateNeeded(this).check();
 
     }
-    public void onClickTheme(View v){
-        Intent intent = new Intent(this,HomeActivity.class);
+
+    public void onClickTheme(View v) {
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void onClickSP(View v){
-        Log.v("shanu","Single Player Clicked");
-        Intent intent = new Intent(this,SinglePlayer.class);
-        intent.putExtra("darkTheme",s.isChecked());
+    public void onClickSP(View v) {
+        Log.v("shanu", "Single Player Clicked");
+        Intent intent = new Intent(this, SinglePlayer.class);
+        intent.putExtra("darkTheme", s.isChecked());
         startActivity(intent);
     }
-    public void onClickTP(View v){
-        Log.v("shanu","Two Player Clicked");
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("darkTheme",s.isChecked());
+
+    public void onClickTP(View v) {
+        Log.v("shanu", "Two Player Clicked");
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("darkTheme", s.isChecked());
         startActivity(intent);
     }
 
     @Override
     public void onUpdateNeeded(final String updateUrl) {
-        Log.v("shanu","alert dialog");
+        Log.v("shanu", "alert dialog");
 
         final MaterialAlertDialogBuilder materialAlertDialogBuilder
-                = new MaterialAlertDialogBuilder(this,R.style.Theme_MaterialComponents_Dialog_Alert);
+                = new MaterialAlertDialogBuilder(this, R.style.Theme_MaterialComponents_Dialog_Alert);
 
         final AlertDialog alertDialog = materialAlertDialogBuilder.setTitle("New version available")
                 .setMessage("Please, update the app to new version for latest features")
                 .setPositiveButton("Download", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        downloadNewVersion(updateUrl);
+                        updateApp(updateUrl);
                     }
                 })
                 .setNegativeButton("Later", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.v("shanu","Later clicked");
+                        Log.v("shanu", "Later clicked");
                     }
                 })
                 .setCancelable(false)
@@ -76,9 +78,21 @@ public class HomeActivityDark extends AppCompatActivity implements UpdateHelper.
 
     private void downloadNewVersion(String updateUrl) {
         //Toast.makeText(this, updateUrl, Toast.LENGTH_SHORT).show();
-        Log.v("shanu","downloading from "+updateUrl);
+        Log.v("shanu", "downloading from " + updateUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(updateUrl));
         startActivity(intent);
+    }
+
+    public void updateApp(String updateUrl) {
+        Log.v("shanu", "downloading from " + updateUrl);
+        try {
+            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL();
+            downloadFileFromURL.setContext(getApplicationContext());
+            downloadFileFromURL.execute(updateUrl);
+            finish();
+        } catch (Exception e) {
+            Log.v("shanu", e.getMessage());
+        }
     }
 }
