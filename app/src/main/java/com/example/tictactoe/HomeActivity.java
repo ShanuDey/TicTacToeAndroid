@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity implements UpdateHelper.OnUp
                 .setPositiveButton("Download", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        downloadNewVersion(updateUrl);
+                        updateApp(updateUrl);
                     }
                 })
                 .setNegativeButton("Later", new DialogInterface.OnClickListener() {
@@ -83,5 +83,17 @@ public class HomeActivity extends AppCompatActivity implements UpdateHelper.OnUp
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(updateUrl));
         startActivity(intent);
+    }
+
+    public void updateApp(String updateUrl){
+        Log.v("shanu","downloading from "+updateUrl);
+        try {
+            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL();
+            downloadFileFromURL.setContext(getApplicationContext());
+            downloadFileFromURL.execute(updateUrl);
+            finish();
+        }catch (Exception e){
+            Log.v("shanu",e.getMessage());
+        }
     }
 }
