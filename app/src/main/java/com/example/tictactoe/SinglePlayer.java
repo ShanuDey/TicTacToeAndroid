@@ -376,7 +376,7 @@ public class SinglePlayer extends AppCompatActivity {
                 for(int j=0;j<3;j++){
                     if(board[i][j]==0){
                         //place a move
-                        board[i][j] = 1;
+                        board[i][j] = 2;
 
                         //go further
                         bestValue = Math.max(bestValue,minimax(board,depth+1,false));
@@ -395,7 +395,7 @@ public class SinglePlayer extends AppCompatActivity {
 
                     if(board[i][j]==0){
                         //place a move
-                        board[i][j] = 2;
+                        board[i][j] = 1;
 
                         //go further
                         worstValue = Math.min(worstValue,minimax(board,depth+1,true));
@@ -420,7 +420,7 @@ public class SinglePlayer extends AppCompatActivity {
                     board[i][j] = 2;
 
                     //calculate move value
-                    int moveValue = minimax(board,0,true);
+                    int moveValue = minimax(board,0,false);
 
 
                     //revert move
