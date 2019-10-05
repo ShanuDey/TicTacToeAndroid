@@ -44,10 +44,10 @@ public class Multiplayer extends AppCompatActivity {
 
     int[][] btn_id = new int[3][3];
     Button[][] btn_board = new Button[3][3];
-
+    private Boolean gameEnd = false;
 
     private DatabaseReference databaseReference;
-    private DatabaseReference boardReference,statusReference;
+    private DatabaseReference boardReference,statusReference,gameReference;
     private String gameID;
 
     private int currentPlayer;
@@ -63,6 +63,7 @@ public class Multiplayer extends AppCompatActivity {
         //firebase
         databaseReference = FirebaseDatabase.getInstance().getReference();
         gameID = getIntent().getStringExtra("gameId");
+        gameReference = databaseReference.child("game").child(gameID);
         boardReference = databaseReference.child("game").child(gameID).child("board_data");
         statusReference = databaseReference.child("game").child(gameID).child("board_status");
 
@@ -168,7 +169,18 @@ public class Multiplayer extends AppCompatActivity {
     }
 
     public void backToLobby(){
-        boardReference.removeValue();
+        if (gameEnd){
+            gameReference.removeValue();
+        }else{
+            statusReference.setValue("quit");
+        }
+
+//        try{
+//            gameReference.removeValue();
+//        }catch (Exception e){
+//
+//        }
+        //boardReference.removeValue();
         Intent intent = new Intent(this,Lobby.class);
         intent.putExtra("UID",UserData.UID);
         startActivity(intent);
@@ -222,6 +234,10 @@ public class Multiplayer extends AppCompatActivity {
     public void draw() {
         Log.v("shanu", "draw");
         alert("Draw");
+    }
+    public void quit(){
+        Log.v("shanu","quit");
+        alert("Opponent Exited");
     }
 
     class Cell{
@@ -321,34 +337,42 @@ public class Multiplayer extends AppCompatActivity {
 //        }
     }
 
-    private void checkStatus(){
+    private void checkStatus() {
         status = new String();
         statusReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 if (dataSnapshot!=null){
-                     status = dataSnapshot.getValue(String.class);
-                     Log.v("shanu","status --> "+status);
-                     if(status.equals("turn"+currentPlayer)){
-                         currentPlayerTurn =true;
-                         tv_status.setText("Your's\nTurn");
-                     }else if(status.equals("turn"+opponentPlayer)){
-                         currentPlayerTurn = false;
-                         tv_status.setText("Oppnent's\nTurn");
-                     }else if (status.equals("draw")) {
-                         draw();
-                     } else if (status.equals("win"+currentPlayer)) {
-                         winner();
-                     } else if (status.equals("win"+opponentPlayer)) {
-                         gameOver();
-                     }
+                if (dataSnapshot != null) {
+                    status = dataSnapshot.getValue(String.class);
+                    Log.v("shanu", "status --> " + status);
+                    if(gameEnd ==false) {
+                        if (status.equals("turn" + currentPlayer)) {
+                            currentPlayerTurn = true;
+                            tv_status.setText("Your's\nTurn");
+                        } else if (status.equals("turn" + opponentPlayer)) {
+                            currentPlayerTurn = false;
+                            tv_status.setText("Oppnent's\nTurn");
+                        } else if (status.equals("draw")) {
+                            draw();
+                            gameEnd = true;
+                        } else if (status.equals("win" + currentPlayer)) {
+                            winner();
+                            gameEnd = true;
+                        } else if (status.equals("win" + opponentPlayer)) {
+                            gameOver();
+                            gameEnd = true;
+                        } else if (status.equals("quit")) {
+                            quit();
+                            gameEnd = true;
+                        }
+                    }
 
-
-                 }
+                }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.v("shanu","status oncancel "+databaseError.getMessage());
+                Log.v("shanu", "status oncancel " + databaseError.getMessage());
             }
         });
     }
