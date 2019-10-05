@@ -1,6 +1,7 @@
 package com.example.tictactoe;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     private EditText et_email, et_pass;
     private FirebaseAuth mAuth;
+
+    MaterialAlertDialogBuilder materialAlertDialogBuilder;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        alertDialog = getAlertDialog().create();
+
     }
 
     @Override
@@ -41,7 +48,23 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
+    public MaterialAlertDialogBuilder getAlertDialog() {
+        if(materialAlertDialogBuilder==null){
+            materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+            materialAlertDialogBuilder.setView(R.layout.loading)
+                    .setCancelable(false);
+        }
+        return materialAlertDialogBuilder;
+    }
+
     public void onClickLogin(View v){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.show();
+            }
+        });
         String email = et_email.getText().toString();
         String password = et_pass.getText().toString();
         Log.v("shanu","Email ="+email);
@@ -80,6 +103,12 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             Log.v("shanu", "updateUI called from Login || user is not login");
+        }
+
+        try {
+            alertDialog.dismiss();
+        }catch (Exception e){
+
         }
     }
 
