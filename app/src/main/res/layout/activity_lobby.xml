@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".Lobby">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
-        android:text="Lobby"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textSize="40sp" />
+        android:orientation="horizontal"
+        android:paddingLeft="20sp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher_tic" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lobby"
+            android:textAlignment="center"
+            android:layout_marginLeft="50sp"
+            android:textColor="#000"
+            android:textSize="40sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:layout_gravity="center_vertical"
+            >
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textColor="#000"
+                android:onClick="onClickLogout"
+                android:layout_marginRight="10sp"
+                android:textSize="10sp" />
 
-    <ImageView
-        android:layout_width="227dp"
-        android:layout_height="191dp"
-        android:layout_margin="30sp"
-        android:src="@mipmap/ic_launcher_tic" />
+        </LinearLayout>
 
-    <LinearLayout
+    </LinearLayout>
+
+
+
+    <!--LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
@@ -44,21 +67,26 @@
             android:text="0"
             android:textColor="#000"
             android:textSize="20sp" />
-    </LinearLayout>
 
+    </LinearLayout-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_margin="10sp"
+        android:layout_height="fill_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+<!--
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30sp"
         android:text="Start Matching"
+        android:onClick="onClickStartMatching"
         android:textColor="#000"
         android:textSize="30sp" />
+-->
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:textColor="#000"
-        android:onClick="onClickLogout"
-        android:textSize="15sp" />
 </LinearLayout>

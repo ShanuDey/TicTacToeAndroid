@@ -112,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.v("shanu", "updateUI called from Login || user is logded in");
             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, Lobby.class);
+            intent.putExtra("UID",currentUser.getUid());
             startActivity(intent);
             finish();
         }
