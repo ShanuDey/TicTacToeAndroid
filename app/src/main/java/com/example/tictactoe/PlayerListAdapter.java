@@ -70,6 +70,25 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Pl
         public void setData(Player player){
             this.player = player;
             tv_playerName.setText(player.name);
+            //btn_invite.setText(player.status);
+
+            //status
+            if(player.status.equals("idle")){
+                btn_invite.setEnabled(true);
+                btn_invite.setText("Invite");
+            }
+            else{
+                btn_invite.setEnabled(false);
+                btn_invite.setText("Busy");
+            }
+
+            //visibility
+            if(player.userId.equals(UserData.UID)){
+                btn_invite.setVisibility(Button.INVISIBLE);
+            }
+            else{
+                btn_invite.setVisibility(Button.VISIBLE);
+            }
         }
 
     }

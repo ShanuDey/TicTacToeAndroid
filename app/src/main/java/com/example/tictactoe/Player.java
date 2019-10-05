@@ -57,11 +57,11 @@ public class Player {
         this.status = status;
     }
 
-    public String getOpponetId() {
+    public String getOpponentId() {
         return opponentId;
     }
 
-    public void setOpponetId(String opponetId) {
-        this.opponentId = opponetId;
+    public void setOpponentId(String opponentId) {
+        this.opponentId = opponentId;
     }
 }
