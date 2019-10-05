@@ -82,7 +82,7 @@ public class Matching extends AppCompatActivity {
     private void gameLoading(){
         //databaseReference.child("game").child(gameId).child("board").setValue(-1);
         Intent intent = new Intent(this,Multiplayer.class);
-        //intent.putExtra("gameId",gameId);
+        intent.putExtra("gameId",gameId);
         startActivity(intent);
         finish();
     }

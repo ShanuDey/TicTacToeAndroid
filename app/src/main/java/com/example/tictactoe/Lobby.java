@@ -116,8 +116,10 @@ public class Lobby extends AppCompatActivity {
 
     }
     public void gameLoading(){
+        String gameId =UserData.CURRENT_PLAYER.opponentId+"~"+UID;
         databaseReference.child("game").child(UserData.CURRENT_PLAYER.opponentId+"~"+UID).child("board_status").setValue("accepted");
         Intent intent = new Intent(this,Multiplayer.class);
+        intent.putExtra("gameId",gameId);
         startActivity(intent);
     }
 
