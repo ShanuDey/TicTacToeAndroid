@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="login">Login</string>
+    <string name="create_a_new_account">create a new account</string>
 </resources>

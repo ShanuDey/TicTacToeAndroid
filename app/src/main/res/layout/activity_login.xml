@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30sp"
+        android:text="Login/Register"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="40sp" />
+
+    <ImageView
+        android:layout_width="185dp"
+        android:layout_height="136dp"
+        android:layout_marginBottom="20sp"
+        android:src="@mipmap/ic_launcher_tic" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:hint="Email"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/et_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="20sp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="15sp"
+        android:text="@string/login"
+        android:inputType="textEmailAddress"
+        android:onClick="onClickLogin"
+        android:textColor="#000" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:onClick="onClickRegister"
+        android:layout_marginRight="20sp"
+        android:text="Register"
+        android:textColor="#000"
+        android:textSize="10sp" />
+
+</LinearLayout>
