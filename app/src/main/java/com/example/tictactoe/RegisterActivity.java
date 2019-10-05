@@ -66,13 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClickRegister(View v){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                alertDialog.show();
-            }
-        });
-
         username = et_username.getText().toString().trim();
         email = et_email.getText().toString().trim();
         password = et_password.getText().toString().trim();
@@ -91,6 +84,13 @@ public class RegisterActivity extends AppCompatActivity {
             et_confirmPass.setError("Password not matched");
             return;
         }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.show();
+            }
+        });
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
