@@ -59,22 +59,26 @@ public class Lobby extends AppCompatActivity {
     }
 
     public void createPlayer(){
-        databaseReference.child("user").child(UID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               User user = dataSnapshot.getValue(User.class);
-               if(user!=null){
-                   Player player = new Player(user.getEmail(),user.getName(),UID,"idle","none");
-                   UserData.CURRENT_PLAYER = player;
-                   databaseReference.child("online").child(UID).setValue(player);
-               }
-            }
+        try {
+            databaseReference.child("user").child(UID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null) {
+                        Player player = new Player(user.getEmail(), user.getName(), UID, "idle", "none");
+                        UserData.CURRENT_PLAYER = player;
+                        databaseReference.child("online").child(UID).setValue(player);
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.v("shanu","getplaer"+databaseError.getDetails());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.v("shanu", "getplaer" + databaseError.getDetails());
+                }
+            });
+        }catch (Exception e){
+
+        }
     }
 
     private void loadData(){
@@ -125,5 +129,11 @@ public class Lobby extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        databaseReference.child("online").child(UID).removeValue();
     }
 }
