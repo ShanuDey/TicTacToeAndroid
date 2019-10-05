@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser currentUser){
         if(currentUser!=null) {
             Log.v("shanu", "updateUI called from Login || user is logded in");
+            Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, Lobby.class);
             startActivity(intent);
             finish();

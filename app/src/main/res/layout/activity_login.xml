@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30sp"
-        android:text="Login/Register"
+        android:text="Login"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="40sp" />
@@ -30,6 +30,8 @@
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20sp"
         android:hint="Email"
+        android:singleLine="true"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
         android:textSize="20sp" />
 
@@ -41,6 +43,7 @@
         android:layout_marginRight="20sp"
         android:layout_marginBottom="20sp"
         android:hint="Password"
+        android:singleLine="true"
         android:inputType="textPassword"
         android:textAlignment="center"
         android:textSize="20sp" />
@@ -53,7 +56,6 @@
         android:layout_marginRight="20sp"
         android:layout_marginBottom="15sp"
         android:text="@string/login"
-        android:inputType="textEmailAddress"
         android:onClick="onClickLogin"
         android:textColor="#000" />
 
