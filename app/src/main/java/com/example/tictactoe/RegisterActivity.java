@@ -155,9 +155,11 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.v("shanu",databaseError.getMessage());
                 }
             });
-
+        }
+        try {
+            alertDialog.dismiss();
+        }catch (Exception e){
 
         }
-        alertDialog.dismiss();
     }
 }
