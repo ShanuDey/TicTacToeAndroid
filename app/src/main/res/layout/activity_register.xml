@@ -100,5 +100,4 @@
         android:text="Back to Login"
         android:textColor="#000"
         android:textSize="10sp" />
-
 </LinearLayout>

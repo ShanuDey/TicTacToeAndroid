@@ -1,18 +1,25 @@
 package com.example.tictactoe;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +36,9 @@ public class RegisterActivity extends AppCompatActivity {
     private String username,email,password,confirmPass;
     private DatabaseReference databaseReference;
 
+    MaterialAlertDialogBuilder materialAlertDialogBuilder;
+    AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +51,28 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("user");
+
+        alertDialog = getAlertDialog().create();
+
     }
+
+    public MaterialAlertDialogBuilder getAlertDialog() {
+        if(materialAlertDialogBuilder==null){
+            materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+            materialAlertDialogBuilder.setView(R.layout.loading)
+                    .setCancelable(false);
+        }
+        return materialAlertDialogBuilder;
+    }
+
     public void onClickRegister(View v){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.show();
+            }
+        });
+
         username = et_username.getText().toString().trim();
         email = et_email.getText().toString().trim();
         password = et_password.getText().toString().trim();
@@ -82,7 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-
     }
     public void onClickBackToLogin(View v){
         Intent intent = new Intent(this,LoginActivity.class);
@@ -129,5 +158,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         }
+        alertDialog.dismiss();
     }
 }
